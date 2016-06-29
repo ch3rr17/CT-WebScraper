@@ -8,31 +8,18 @@ app.get('/scrape', function(req, res) {
 
     //Scraping URL
     url = 'https://origin-web-scraping.herokuapp.com/';
-
     request(url, function(error, response, html) {
 
         if (!error) {
-
             var $ = cheerio.load(html);
-/*
-            var name, imageUrl, author, price;
 
-            var json = { name: "", imageUrl: "", author: "", price: "" };
-
-            var name = [];
-            var imageUrl = [];
-            var author = [];
-            var price = [];*/
-
-            
             //Holds the items in an array
             var jsonData = [];
 
-            //Call to the panel element and grabs necessary items(elements)
+            //Calls the panel element and grabs necessary items(elements) based on requirements given
             $('.panel').each(function() {
 
                 var data = $(this);
-
                 var name = data.children().first().text().trim();
                 var imageUrl = data.children().eq(1).children().first().attr('src');
                 var author = data.children().eq(1).children().eq(1).text();
@@ -42,37 +29,8 @@ app.get('/scrape', function(req, res) {
                 var json = { name: name, imageUrl: imageUrl, author: author, price: price };
                 jsonData.push(json);
 
-                /*name[i] = $(this).first().text().trim();
-                imageUrl[i] = $(this).children().children().first().attr('src').trim();
-                author[i] = $(this).children().children().text().trim();
-                price[i] = $(this).children().children().text().trim();*/
-                /*name = data.children().text();*/
-
-                
-
-           	 /*  json.name = name;
-               json.imageUrl = imageUrl;
-               json.author = author;
-               json.price = price;*/
-                
             })
 
-            /*$('.panel-body').each(function(i, elem){
-            	//var data = $(this);
-
-                imageUrl = $(this).children().text();
-                author = $(this).children().text();
-                price = $(this).children().text();
-                
-            	
-            	imageUrl = data.children().text();
-            	author = data.children().text();
-            	price = data.children().text();
-
-            	json.imageUrl = imageUrl;
-            	json.author = author;
-            	json.price = price;
-            })*/
         }
 
         //Creates a JSON file based on items grabbed
